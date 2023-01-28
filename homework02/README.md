@@ -31,5 +31,5 @@ For the scipt generate_sites.py there will be no output, as the script only crea
 emacs meteorites.json
 ```
 
-The output of the scirpt calculate_trip shows the time to travel from the robots current position to the next meteorite followed by the time it will take to take to sample the meteorite. At the end of the output it will show the number of legs(meteorites sampled) and the total time it will take to complete its mission. 
+The output of the scirpt calculate_trip shows the time to travel from the robots current position to the next meteorite followed by the time it will take to take to sample the meteorite. At the end of the output it will show the number of legs (meteorites sampled) and the total time it will take to complete its mission. 
 
