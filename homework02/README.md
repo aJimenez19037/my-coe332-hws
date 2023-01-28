@@ -15,7 +15,11 @@ To run the code simply type into the terminal:
 
 
 ```bash
-python3 pythonscript.py
+python3 generate_site.py
+
+or
+
+python3 calculate_trip.py
 ```
 
 
