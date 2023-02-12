@@ -19,7 +19,6 @@ Imports request which is needed for getting json file from the internet, which i
 
 Contains two functions that are automated to run with pytest, which check that the functions are returning appropriate results. The functions name begin with test_ followed by the name of the function which  they are testing.  
 
-** How to run the code
 
 Request library and pytest need to be installed to run the code, which can be installed with the lines of code below.
 
@@ -39,6 +38,5 @@ The first line of the output shows the current tubidity levels in NTU units, the
 Average turbidity based on most recent five measurements = 65.1206 NTU
 Warning: Turbidity is above threshold for safe use
 Minimum time required to return below a safe threshold = 207 hours
-
 ```
 To run the test simply type pytest into the terminal.
