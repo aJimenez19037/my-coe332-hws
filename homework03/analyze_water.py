@@ -19,7 +19,7 @@ def calculate_turbidity(a0:float,I90:float) -> float:
     T = round (a0 * I90, 3)
     return T
     
-def calculate_minimum_time(T0:float) -> float:
+def calculate_minimum_time(T0:float) -> int:
     """Calculate minimum time
 
      Calculate minimum time to fall below threshold turbidity (1NTU)
