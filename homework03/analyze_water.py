@@ -1,19 +1,42 @@
 import json
 import requests
 
-def calculate_turbidity(a0,I90):
+def calculate_turbidity(a0:float,I90:float) -> float:
+    """Calculates turbidity of the water
+    
+    Caclulates turbidity of the water sample passed in from json file.
+
+    Args:
+       a0:
+        Calibration constant used to sample water. Float.
+       I90:
+        Ninety degree detector current in radians. Float 
+
+    Returns:
+        Turbidity rounded to three decimal places, which corresponds with the turbity value calculated. Float. 
+    """
     I90 = ((I90*180)/3.1415926)
     T = round (a0 * I90, 3)
-    #T = Turbidity in NTU Units (0 - 40)
-    #a0 = Calibration constant
-    #I90 = Ninety degree detector current
-#    print("Turbidity: " +str(T))
     return T
     
-def calculate_minimum_time(T0):
-    b = 0
-    d = .02
-    Ts = 1
+def calculate_minimum_time(T0:float) -> float:
+    """Calculate minimum time
+
+     Calculate minimum time to fall below threshold turbidity (1NTU)
+
+     Args:
+        T0:
+         Current turbidity, bsaically average turbidity of the 5 most recent samples. Float.
+            
+     Returns:
+        Minimum time needed for turbidity to fall below 1 NTU. Integer. 
+             
+     
+    """
+    b = 0 # b = hours elapsed
+    print(type(b))
+    d = .02  # d = decay factor per hour, expressed as a decimal
+    Ts = 1  # Ts = Turbidity threshold for safe water
     if (T0 <= 1):
         return 0
     while (float(Ts) < (T0*((1-d)**b))):
@@ -21,10 +44,10 @@ def calculate_minimum_time(T0):
     return b
     
  #   Ts > T0(1-d)**b
-   # Ts = Turbidity threshold for safe water
-   # T0 = Current turbidity
-    #d = decay factor per hour, expressed as a decimal
-    #b = hours elapsed
+  
+   
+   
+    
     
 def main():
     response = requests.get(url='https://raw.githubusercontent.com/wjallen/turbidity/main/turbidity_data.json')
