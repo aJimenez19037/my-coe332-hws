@@ -3,7 +3,7 @@
 
 ## Folder Contents / Project Objective
 
-This directory contains one python script called analyze_water that analyzes the turbidity of the water of the five most recent water samples. It is collecting the data from a json file that is continously updating with new samples. The second script is called test_analyze_water that has test that check that the math within analyze_water script are functioning properly. 
+This directory contains one python script called analyze_water that analyzes the turbidity of the water of the five most recent water samples. It is collecting the data from a json file that is continously updating with new samples. The second script is called test_analyze_water that has tests that check that the math within analyze_water script are functioning properly. 
 
 ## Accessing data set from the original source
 
@@ -17,7 +17,6 @@ Imports request which is needed for getting json file from the internet, which i
 
 ### test_analyze_water
 
-Contains two functions that are automated to run with pytest, which check that the functions are returning appropriate results. The functions name begin with test_ followed by the name of the function which  they are testing.  
 
 
 Request library and pytest need to be installed to run the code, which can be installed with the lines of code below.
