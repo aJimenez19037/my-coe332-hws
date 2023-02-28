@@ -1,8 +1,8 @@
-# International Space Station Data 
+# Containerized Flask Application for Analyzing International Space Station Data 
 
 ## Purpose
 
-The purpose of this project is to make working with and looking at the International Space Station data much easier. The project uses recent and publicly available data that allows the user to be able to see the ISS position and velocities. Within this repository there is a dockerfile (Dockerfile) that containerizes the flask app. There is also the flask app (iss_tracker.py), which creates a framework where the user is able to send request and the server will return an appropriate response.
+The purpose of this project is to make working with and looking at the International Space Station data much easier. The project uses recent and publicly available data that allows the user to be able to see the ISS position and velocities. This project is a containerized through the use of Docker and uses Flask to create a server client model. Within this repository there is a dockerfile (Dockerfile) that containerizes the flask app. There is also the flask app (iss_tracker.py), which creates a framework where the user is able to send request and the server will return an appropriate response.
 
 ## ISS Data 
 
@@ -149,5 +149,25 @@ The fourth route (/epochs/<int:epoch>/speed) will return the velocity of the epo
 }
 ```
 As mentioned, there are more routes that can be found through the use of the help route. 
+   
 ## Building your own docker image
+   
 Some of you might want to build upon the code I have written. To do so you will need to build your own docker image. 
+   
+### Dockerfile
+Tutorials on how to construct a dockerfile can be found online. The one in this project consist of the base image, installation of libraries needed for the python script to function and the version, copying the python script into the image, and command to be ran. 
+ 
+### Building the image   
+Once you have made the edits necessary you now need to build the docker image.
+```
+$docker build -t <dockerhubusername>/<script name without the .py>:<version> .
+```
+Running the image:
+```
+$docker run -it --rm -p <dockerhubusername>/<script name without the .py>:<version>
+```   
+### Pushing the image to DockerHub
+If you wish to push the image to dockerhub:
+```
+$docker push <dockerhubusername>/<script name without the .py>:<version>
+```
