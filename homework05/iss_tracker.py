@@ -106,7 +106,7 @@ def get_each_vectors(epoch:int) -> dict:
             epochs[epoch]
         except IndexError:
             return "Input is too large. Try an int between 0 and " + str(len(epochs)-1) + "\n"
-    return epochs[epoch]
+    return {"X": epochs[epoch]['X']['#text'], "Y": epochs[epoch]['Y']['#text'],"Z": epochs[epoch]['Z']['#text'],"X_DOT": epochs[epoch]['X_DOT']['#text'], "Y_DOT": epochs[epoch]['Y_DOT']['#text'],"Z_DOT": epochs[epoch]['Z_DOT']['#text']}
 
 
 @app.route('/epochs/<int:epoch>/speed', methods = ['GET'])#Instantaneous speed for a specific Epoch in the data set (math required!)
