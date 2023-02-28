@@ -21,7 +21,7 @@ Before running the app you need to pull the Docker image from DockerHub:
 $docker pull antjim19037/iss_tracker:hw05
 ```
 
-We will then build the image:
+We will then build the image. Ensure that this is done within the directory with the Dockerfile and the python script:
 
 ```
 $docker build -t antjim19037/iss_tracker:hw05 .
