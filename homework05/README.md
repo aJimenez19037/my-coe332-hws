@@ -1,30 +1,43 @@
-# International Space Station Speed Tracker
+# International Space Station Data 
 
 ## Purpose
 
-This directory contains a README and the iss_tracker python script. The purpose of this project is to be able to calculate and look at data from the ISS at specific times. 
+The purpose of this project is to make working with and looking at the International Space Station data much easier. The project uses recent and publicly available data that allows the user to be able to see the ISS position and velocities. Within this repository there is a dockerfile (Dockerfile) that containerizes the flask app. There is also the flask app (iss_tracker.py), which creates a framework where the user is able to send request and the server will return an appropriate response.
 
 ## ISS Data 
 
 The data can be downloaded from this link: https://nasa-public-data.s3.amazonaws.com/iss-coords/current/ISS_OEM/ISS.OEM_J2K_EPH.xml
-The data, however, is gathered through the python script from the link using the request library. The data is an XML file containing epochs with their respective position (x,y,z) and their velocity (x,y,z).
+The data, however, is gathered through the python script from the link using the request library. The data is an XML file containing epochs with their respective position (x,y,z) and their velocity (x,y,z). The units are respectively km and km/s. While this is the information we are interested, the XML file also contains metadata and more. 
 
 ## Flask app
 
-The flask app takes in a request from the client which the framework then returns a string. 
+Flask is a Python library and framework for building web servers. This is used to create a server where the user can make request and the server will return an appropriate resonse.   
 
-## Running the app
+## Running the app thorugh Docker
 
-Before running the app ensure you have installed the appropriate libraries.
+Before running the app you need to pull the Docker image from DockerHub:
+
 ```
-$pip3 install --user requests
-$pip3 install --user xmltodict
+$docker pull antjim19037/iss_tracker:hw05
 ```
-In one terminal you will be running the app. Ensure that you are in the same directory as the python script iss_tracker.py. In the terminal run the code below:
+
+We will then build the image:
+
 ```
-$ flask --app iss_tracker.py --debug run
+$docker build -t antjim19037/iss_tracker:hw05 .
 ```
-In another terminal you can type one of the four routes "/" , "/epochs" , "/epochs/<int:epoch>" , and"/epochs/<int:epoch>/speed"
+
+We will now run the Docker image:
+
+```
+$docker run -it --rm -p 5000:5000 antjim19037/iss_tracker:hw05
+```
+The -p flag takes the form <host port>:<container port> and connects the two ports. The Flask app is now running. You should see the ports which are being used. These ports can be used to make request:
+```
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.0.2:5000
+```
+
 ```
 $curl localhost:5000/
 $curl localhost:5000/epochs
