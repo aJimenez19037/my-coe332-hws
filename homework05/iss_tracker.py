@@ -54,12 +54,12 @@ def get_epoch_list() -> list:
         List of dictionaries with all the epochs and their index value.
     """
     epochs_list = []
-    start = request.args.get('start',0)
-    if start:
+    offset = request.args.get('offset',0)
+    if offset:
         try:
-            start = int(start)
+            offset = int(offset)
         except ValueError:
-            return "Invalid start parameter; start must be an integer.\n"
+            return "Invalid offset parameter; offset must be an integer.\n"
     try:
         epochs = data['ndm']['oem']['body']['segment']['data']['stateVector']
     except KeyError:
@@ -74,7 +74,7 @@ def get_epoch_list() -> list:
             return "Invalid limit parameter; limit must be an integer.\n"
     counter = 0;
     for d in range(len(epochs)):
-        if (d >= int(start)):
+        if (d >= int(offset)):
             epochs_list.append({epochs[d]['EPOCH']:d})
         if (len(epochs_list) == int(limit)):
             return epochs_list
@@ -143,7 +143,7 @@ def help() -> str:
     Returns a string that gives a brief description of all available routes plus their methods.
 
     """
-    message = "usage: curl 127.0.0.1:5000[Options]\n\n     Options: \n       [/]                             Return entire data set \n       [/epochs]                       Return list of all Epochs in the data set \n       [/epochs?limit=int&offset=int]  Return modified list of Epochs given query parameters \n       [/epochs/<epoch>]               Return state vectors for a specific Epoch from the data set \n       [/epochs/<epoch>/speed]         Return instantaneous speed for a specific Epoch in the data set\n       [/help]                         Return help text (as a string) that briefly describes each route \n       [/delete-data]                  Delete all data from the dictionary object. In the terminal curl should be followed by -X DELETE \n       [/post-data]                    Reload the dictionary object with data from the web. In the terminal curl should be followed by -X POST \n **** Note if running multiple queries the use of single quotes will be necessary (' '). \n"
+    message = "usage: curl 127.0.0.1:5000[Options]\n\n     Options: \n       [/]                             Return entire data set \n       [/epochs]                       Return list of all Epochs in the data set \n       [/epochs?limit=int&offset=int]  Return modified list of Epochs given query parameters. Offswt parameter makes it so that it returns the data after the inputted value. The limit parameter limits the number of epochs are returned. \n       [/epochs/<epoch>]               Return state vectors for a specific Epoch from the data set \n       [/epochs/<epoch>/speed]         Return instantaneous speed for a specific Epoch in the data set\n       [/help]                         Return help text (as a string) that briefly describes each route \n       [/delete-data]                  Delete all data from the dictionary object. In the terminal curl should be followed by -X DELETE \n       [/post-data]                    Reload the dictionary object with data from the web. In the terminal curl should be followed by -X POST \n **** Note if running multiple queries the use of single quotes will be necessary (' '). \n"
     return message
 
 @app.route('/delete-data', methods = ['DELETE'])
