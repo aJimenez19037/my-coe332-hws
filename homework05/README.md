@@ -112,37 +112,18 @@ $curl '127.0.0.1:5000/epochs?start=10&limit=5'
 ]
 ```
    
-The third route (/epochs/<int:epoch>) will return the information from the epoch requested based on the index inputted to the route. Within the information you will find the time of the epoch as well as its x,y,z positions and x,y,z velocity. The output will look like:
+The third route (/epochs/<int:epoch>) will return a dictionary with the state vector of the epoch requested based on the index inputted to the route. Within the information you will find the time of the epoch as well as its x,y,z positions and x,y,z velocity. The units are km and km/s. The output will look like:
 ```
 {
-  "EPOCH": "2023-048T12:04:00.000Z",
-  "X": {
-    "#text": "-5998.4652356788401",
-    "@units": "km"
-  },
-  "X_DOT": {
-    "#text": "-2.8799691318087701",
-    "@units": "km/s"
-  },
-  "Y": {
-    "#text": "391.26194859011099",
-    "@units": "km"
-  },
-  "Y_DOT": {
-    "#text": "-5.2020406581448801",
-    "@units": "km/s"
-  },
-  "Z": {
-    "#text": "-3164.26047476555",
-    "@units": "km"
-  },
-  "Z_DOT": {
-    "#text": "4.8323394499086101",
-    "@units": "km/s"
-  }
+  "X": "-5639.5284094618401",
+  "X_DOT": "3.1568693265637302",
+  "Y": "-314.49769341134498",
+  "Y_DOT": "-5.5438986090992399",
+  "Z": "3765.6771528612999",
+  "Z_DOT": "4.2533031694348002"
 }
 ```
-The fourth route (/epochs/<int:epoch>/speed) will return the velocity of the epoch requested in the route as a dictionary. The result will be the scalar value of the velocity on km/s. The result will look like:
+The fourth route (/epochs/<int:epoch>/speed) will return the velocity of the epoch requested in the route as a dictionary. The result will be the scalar value of the velocity on km/s. This is calculated by taking the sqrt(X_DOT^2 + Y_DOT^2 + Z_DOT^2) The result will look like:
 ```
 {
   "Velocity": 7.662046317290625
