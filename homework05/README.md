@@ -13,7 +13,7 @@ The data, however, is gathered through the python script from the link using the
 
 Flask is a Python library and framework for building web servers. This is used to create a server where the user can make request and the server will return an appropriate resonse.   
 
-## Running the app thorugh Docker
+## Running the app through Docker
 
 Before running the app you need to pull the Docker image from DockerHub:
 
