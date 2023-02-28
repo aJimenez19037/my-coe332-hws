@@ -38,7 +38,7 @@ The -p flag takes the form <host port>:<container port> and connects the two por
  * Running on http://172.17.0.2:5000
 ```
 ## Making request
-Below are examples of making request using the curl command. For some commands '-X [VERB]' is needed after curl. When making a query a '?' is placed at the end of the route followed by the query. If there are multiple queries being used the enveloping the route with single quotes ('') is needed. The help route is especially useful as it shows all the available routes/queries as well as what they do. 
+In another terminal we can now make request using the curl command. Below are examples of making request using the curl command. For some commands '-X [VERB]' is needed after curl. When making a query a '?' is placed at the end of the route followed by the query. If there are multiple queries being used the enveloping the route with single quotes ('') is needed. The help route is especially useful as it shows all the available routes/queries as well as what they do. 
 ```
 $curl '127.0.0.1:5000/'
 $curl 127.0.0.1:5000/help
@@ -47,7 +47,7 @@ $curl '127.0.0.1:5000/epochs?start=5&limit=10'
 $curl 127.0.0.1:5000/epochs/<int:epoch> 
 $curl 127.0.0.1:5000/epochs/<int:epoch>/speed
 ```
-## Output
+## Outputs
 The first route ("/") will result in the entire dataset being returned. You will see all of the information wihtin the XML file as a dictionary. As you can see there is metadata as well as other data that you can sift through. The end of your output will look like: 
 ```
    },
@@ -70,7 +70,7 @@ The first route ("/") will result in the entire dataset being returned. You will
   }
 }
 ```
-The second route (/epochs) will result in a list of epochs being returned. Within this output you will see the epoch as well as its index value. The end of your output will look like: 
+The second route (/epochs) will result in a list of epochs being returned. Within this output you will see the epoch as well as its index value. The index value lets us see how many epochs there are in the dataset, as well as it allows use to see that our queries are working correctly. The end of your output will look like: 
 ```
   {
     "2023-070T11:44:00.000Z": 5656
@@ -89,7 +89,7 @@ The second route (/epochs) will result in a list of epochs being returned. Withi
   }
 ]
 ```
-Through the use of queries we can limit the number of epochs we are seeing. 
+Through the use of queries we can limit the number of epochs we are seeing. You can see here that we chose to start at epoch 10 and are limiting the output to only 5 epochs.  
 ```
 $curl '127.0.0.1:5000/epochs?start=10&limit=5'
    
@@ -112,7 +112,7 @@ $curl '127.0.0.1:5000/epochs?start=10&limit=5'
 ]
 ```
    
-The third route (/epochs/<int:epoch>) will return the information from the epoch requested based on the integer that the route has. Within the information you will find the time of the epoch as well as its x,y,z positions and x,y,z velocity. The output will look like:
+The third route (/epochs/<int:epoch>) will return the information from the epoch requested based on the index inputted to the route. Within the information you will find the time of the epoch as well as its x,y,z positions and x,y,z velocity. The output will look like:
 ```
 {
   "EPOCH": "2023-048T12:04:00.000Z",
@@ -149,3 +149,5 @@ The fourth route (/epochs/<int:epoch>/speed) will return the velocity of the epo
 }
 ```
 As mentioned, there are more routes that can be found through the use of the help route. 
+## Building your own docker image
+Some of you might want to build upon the code I have written. To do so you will need to build your own docker image. 
