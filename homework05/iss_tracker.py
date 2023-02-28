@@ -51,7 +51,7 @@ def get_epoch_list() -> list:
        None
 
     Returns:
-        List of all the epochs
+        List of dictionaries with all the epochs and their index value.
     """
     epochs_list = []
     start = request.args.get('start',0)
@@ -64,7 +64,7 @@ def get_epoch_list() -> list:
         epochs = data['ndm']['oem']['body']['segment']['data']['stateVector']
     except KeyError:
         #return epochs_list
-        return "Data is empty. Try loading the data using $curl -X POST localhost:5000/post-data"
+        return "Data is empty. Try loading the data using $curl url -X POST '127.0.0.1:5000/post-data'"
     epochs = data['ndm']['oem']['body']['segment']['data']['stateVector']
     limit = request.args.get('limit',len(epochs))
     if limit:
@@ -91,7 +91,7 @@ def get_each_vectors(epoch:int) -> dict:
        Takes in an integer that is the ith epoch in the list
 
     Returns:
-        Dictionary with all of the data related to that epoch
+        Dictionary with all of the data related to that epoch.
     """
     
     
@@ -99,18 +99,18 @@ def get_each_vectors(epoch:int) -> dict:
         epochs = data['ndm']['oem']['body']['segment']['data']['stateVector']
     except KeyError:
         #return {}
-        return "Data is empty. Try loading the data using $curl -X POST localhost:5000/post-data"
+        return "Data is empty. Try loading the data using $curl url -X POST '127.0.0.1:5000/post-data'"
     epochs = data['ndm']['oem']['body']['segment']['data']['stateVector']
     if epoch:
         try:
             epochs[epoch]
         except IndexError:
-            return "Input is too large. Try an int between 0 and " + str(len(epochs)) + "\n"
+            return "Input is too large. Try an int between 0 and " + str(len(epochs)-1) + "\n"
     return epochs[epoch]
 
 
 @app.route('/epochs/<int:epoch>/speed', methods = ['GET'])#Instantaneous speed for a specific Epoch in the data set (math required!)
-def get_instantaneous_speed(epoch:int) -> str:
+def get_instantaneous_speed(epoch:int) -> dict:
     """Return Epoch's speed
 
     Based on requested epoch number calculate and return its velocity.
@@ -143,7 +143,7 @@ def help() -> str:
     Returns a string that gives a brief description of all available routes plus their methods.
 
     """
-    message = "usage: curl localhost:5000[Options]\n\n     Options: \n       [/]                             Return entire data set \n       [/epochs]                       Return list of all Epochs in the data set \n       [/epochs?limit=int&offset=int]  Return modified list of Epochs given query parameters \n       [/epochs/<epoch>]               Return state vectors for a specific Epoch from the data set \n       [/epochs/<epoch>/speed]         Return instantaneous speed for a specific Epoch in the data set\n       [/help]                         Return help text (as a string) that briefly describes each route \n       [/delete-data]                  Delete all data from the dictionary object \n       [/post-data]                    Reload the dictionary object with data from the web \n"
+    message = "usage: curl 127.0.0.1:5000[Options]\n\n     Options: \n       [/]                             Return entire data set \n       [/epochs]                       Return list of all Epochs in the data set \n       [/epochs?limit=int&offset=int]  Return modified list of Epochs given query parameters \n       [/epochs/<epoch>]               Return state vectors for a specific Epoch from the data set \n       [/epochs/<epoch>/speed]         Return instantaneous speed for a specific Epoch in the data set\n       [/help]                         Return help text (as a string) that briefly describes each route \n       [/delete-data]                  Delete all data from the dictionary object. In the terminal curl should be followed by -X DELETE \n       [/post-data]                    Reload the dictionary object with data from the web. In the terminal curl should be followed by -X POST \n **** Note if running multiple queries the use of single quotes will be necessary (' '). \n"
     return message
 
 @app.route('/delete-data', methods = ['DELETE'])
