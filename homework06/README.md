@@ -2,7 +2,10 @@
 ## Purpose
 Currently the non-profit Humand Genome Organization (HUGO) which oversees the HUGO Gene Nomenclature Commmittee (HGNC) has approved almost 43,000 symbols (genes). It is important that there are standardize names for genes to minimize confusion and make it much easier to work with genes. Due to the work of the HGNC we always know that we are talking about the same gene! 
 
-As mentioned there are nearly 43,0000 symbols so it can be difficult to search through the data and get the information you need. This project contianerizes a flask application which is deisgned to make it much eaiser to find the needed gene and information. It also creates a base for developers to build upon the application and create interesting projects.    
+As mentioned there are nearly 43,0000 symbols so it can be difficult to search through the data and get the information you need. This project contianerizes a flask application which is deisgned to make it much eaiser to find the needed gene and information. It also creates a base for developers to build upon the application and create interesting projects.   
+## Data
+The public [data](https://www.genenames.org/download/archive/) used is provided and maintained by HUGO. At the bottom you will find all of the different formats. The one used for this is 'Current JSON format hgnc_complete_set file'. Furthemore, within the /genes/<hgnc_id> route you will find much more detailed information about what the dataset contains.
+
 ## Important Files
 gene_api.py: Flask app containing all of the routes allowing user to make a request and get a response. It also contains the code regarding redis, a noSQL database, which allows us to store the data. This is important so that all the data is stored in the case that the flask application stops.
 
@@ -34,7 +37,7 @@ $ docker-compose up -d
 5. Curl commands to the flask application.
 
 ## Build new image from Docker file
-If you wish to edit or tailor the code to your needs you can also build your own image. 
+If you wish to edit or tailor the code to your needs you can also build your own image. Note that 
 1. Clone repository onto your machine.
 2. make a data directory within the cloned repo.
 ```
@@ -173,7 +176,7 @@ $ curl localhost:5000/genes
 ]
 ```
 ### /genes/<hgnc_id>
-Returns all of the data as associated with that hgnc_id in a dictionary.
+Returns all of the data as associated with that hgnc_id in a dictionary. Below we see keys such as alias_symbol, when it was approved, modified, gene group, and much more information that scientist might need for their own projects.
 ```
 $ curl localhost:5000/genes/HGNC:13703
 {
