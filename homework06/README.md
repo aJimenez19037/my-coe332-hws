@@ -1,4 +1,4 @@
-# HW 06: Containerized Flask Application for HGNC Humand Genome Data Using Redis Database
+# HW 06: Containerized Flask Application for HGNC Human Genome Data Using Redis Database
 ## Purpose
 Currently the non-profit Humand Genome Organization (HUGO) which oversees the HUGO Gene Nomenclature Commmittee (HGNC) has approved almost 43,000 symbols (genes). It is important that there are standardize names for genes to minimize confusion and make it much easier to work with genes. Due to the work of the HGNC we always know that we are talking about the same gene! 
 
