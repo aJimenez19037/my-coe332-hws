@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-data-pvc
+  labels:
+    username: aoj19037
+    env: test
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: cinder-csi
+  resources:
+    requests:
+      storage: 1Gi
