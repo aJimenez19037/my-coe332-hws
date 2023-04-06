@@ -71,6 +71,7 @@ $ kubectl apply -f aoj19037-test-redis-deployment.yml
 $ kubectl apply -f aoj19037-test-redis-service.yml
 $ kubectl apply -f aoj19037-test-flask-deployment.yml
 $ kubectl apply -f aoj19037-test-flask-service.yml
+$ kubectl apply -f deployment-python-debug.yml
 ```
 You will see an output confirming that the PVC, deployment, and services were configured/created. 
 ### Kubernetes yml Files
@@ -80,7 +81,34 @@ aoj19037-test-redis-deployment.yml - creates deployment for Redis database
 aoj19037-test-redis-service.yml - creates Redis service which allows us to have a persistent IP address to use to talk to Redis. 
 aoj19037-test-flask-deployment.yml - creates a deployment for gene_api image from dockerhub
 aoj19037-test-flask-service.yml - creates Flask service which allows us to have a persistent IP address to use to talk to Flask and run our curl commands
+deployment-python-debug.yml - creates a deployment for debugging
 
+### Using Kubernetes cluster
+Note, your pods and IP addresses will differ. 
+```
+$kubectl get pods
+NAME                                    READY   STATUS    RESTARTS   AGE
+flask-test-deployment-c46b9f655-mkjkp   1/1     Running   0          66m
+flask-test-deployment-c46b9f655-vn297   1/1     Running   0          66m
+py-debug-deployment-f484b4b99-t6mvf     1/1     Running   0          8d
+redis-test-deployment-94f6657cf-xdkpb   1/1     Running   0          6m51s
+```
+We will now access the bash within the py-debug pod
+```
+$kubectl exec -it  py-debug-deployment-f484b4b99-t6mvf -- /bin/bash
+root@py-debug-deployment-f484b4b99-t6mvf:/#
+```
+Before we are able to run curl commands to the Flask app we need to get the flask service IP. 
+```
+$ kubectl get services
+NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+flask-test-service   ClusterIP   10.233.32.138   <none>        5000/TCP   75m
+redis-test-service   ClusterIP   10.233.3.82     <none>        6379/TCP   76m
+```
+We are now in the bash of our debug pod. Within the pod we are now able to run curl commands. More information on the different routes and curl commands can be found further below. Note that we are using the flask-test-service CLUSTER IP to curl commands. This IP will look different for different users. 
+```
+root@py-debug-deployment-f484b4b99-t6mvf:/# curl -X GET 10.233.32.138:5000/genes
+```
 
 ## Usage
 
