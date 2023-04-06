@@ -1,4 +1,4 @@
-# HW 06: Containerized Flask Application for HGNC Human Genome Data Using Redis Database
+# HW 07: Containerized Flask Application for HGNC Human Genome Data Using Redis Database
 ## Purpose
 Currently the non-profit Humand Genome Organization (HUGO) which oversees the HUGO Gene Nomenclature Commmittee (HGNC) has approved almost 43,000 symbols (genes). It is important that there are standardize names for genes to minimize confusion and make it much easier to work with genes. Due to the work of the HGNC we always know that we are talking about the same gene! 
 
@@ -19,6 +19,7 @@ Closing the application:
 ```
 $ docker-compose down
 ```
+All other files relate to Kubernetes and information about them can be found in the Kubernetes section.
 ## Pull and use image from Docker Hub
 Some users may want something that works out of the box. If so you can simply use a prebuilt image from Docker Hub. 
 1. Clone this repository onto your machine. 
@@ -61,6 +62,25 @@ $docker push <dockerhubusername>/<script name without the .py>:<version>
 $ docker-compose up -d
 ```
 5. Curl commands to the flask application.
+
+## Kubernetes 
+Kubernetes is a container orchestration system that supports Docker. Follow instructions below to run the gene_api app on a Kubernetes cluster:
+```
+$ kubectl apply -f aoj19037-test-redis-pvc.yml 
+$ kubectl apply -f aoj19037-test-redis-deployment.yml
+$ kubectl apply -f aoj19037-test-redis-service.yml
+$ kubectl apply -f aoj19037-test-flask-deployment.yml
+$ kubectl apply -f aoj19037-test-flask-service.yml
+```
+You will see an output confirming that the PVC, deployment, and services were configured/created. 
+### Kubernetes yml Files
+
+aoj19037-test-redis-pvc.yml - creates a persistant volume claim for Redis data
+aoj19037-test-redis-deployment.yml - creates deployment for Redis database
+aoj19037-test-redis-service.yml - creates Redis service which allows us to have a persistent IP address to use to talk to Redis. 
+aoj19037-test-flask-deployment.yml - creates a deployment for gene_api image from dockerhub
+aoj19037-test-flask-service.yml - creates Flask service which allows us to have a persistent IP address to use to talk to Flask and run our curl commands
+
 
 ## Usage
 
