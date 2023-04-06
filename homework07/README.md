@@ -79,10 +79,15 @@ You will see an output confirming that the PVC, deployment, and services were co
 ### Kubernetes yml Files
 
 **aoj19037-test-redis-pvc.yml**: creates a persistant volume claim for Redis data
+
 **aoj19037-test-redis-deployment.yml**: creates deployment for Redis database
+
 **aoj19037-test-redis-service.yml**: creates Redis service which allows us to have a persistent IP address to use to talk to Redis. 
+
 **aoj19037-test-flask-deployment.yml**: creates a deployment for gene_api image from dockerhub. 
+
 **aoj19037-test-flask-service.yml**: creates Flask service which allows us to have a persistent IP address to use to talk to Flask and run our curl commands
+
 **deployment-python-debug.yml**: creates a deployment for debugging
 
 ### Using Kubernetes cluster
