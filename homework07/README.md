@@ -20,7 +20,9 @@ Closing the application:
 $ docker-compose down
 ```
 All other files relate to Kubernetes and information about them can be found in the Kubernetes section.
+
 ## Pull and use image from Docker Hub
+
 Some users may want something that works out of the box. If so you can simply use a prebuilt image from Docker Hub. 
 1. Clone this repository onto your machine. 
 2. make a data directory within the cloned repo.
@@ -79,7 +81,7 @@ You will see an output confirming that the PVC, deployment, and services were co
 **aoj19037-test-redis-pvc.yml**: creates a persistant volume claim for Redis data
 **aoj19037-test-redis-deployment.yml**: creates deployment for Redis database
 **aoj19037-test-redis-service.yml**: creates Redis service which allows us to have a persistent IP address to use to talk to Redis. 
-**aoj19037-test-flask-deployment.yml**: creates a deployment for gene_api image from dockerhub
+**aoj19037-test-flask-deployment.yml**: creates a deployment for gene_api image from dockerhub. 
 **aoj19037-test-flask-service.yml**: creates Flask service which allows us to have a persistent IP address to use to talk to Flask and run our curl commands
 **deployment-python-debug.yml**: creates a deployment for debugging
 
@@ -110,7 +112,26 @@ We are now in the bash of our debug pod. Within the pod we are now able to run c
 root@py-debug-deployment-f484b4b99-t6mvf:/# curl -X GET 10.233.32.138:5000/genes
 ```
 
+### Notes
+If you plan on using your own image and Kubernetes you will need to push the image to dockerhub. Instructions on how to do this are above. You will then need to modify the aoj19037-test-flask-deployment.yml file. Replace the value of the image key with your own image. If you wish to use a pre-containerized image then this step can be ignored. 
+
+```
+spec:
+      containers:
+        - name: flask-container
+          imagePullPolicy: Always
+          image: antjim19037/gene_api:hw07
+          ports:
+          - name: flask
+            containerPort: 5000
+```
+
 ## Usage
+
+```
+return redis.Redis(host='redis-test-service', port=6379, db=0, decode_responses = True) #decode_r\
+esponse turn byte key into a string we can use
+```
 
 | Route | Method | Description |
 | --- | --- | --- |
