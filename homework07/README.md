@@ -118,6 +118,7 @@ root@py-debug-deployment-f484b4b99-t6mvf:/# curl -X GET 10.233.32.138:5000/genes
 ```
 
 ### Notes
+
 If you plan on using your own image and Kubernetes you will need to push the image to dockerhub. Instructions on how to do this are above. You will then need to modify the aoj19037-test-flask-deployment.yml file. Replace the value of the image key with your own image. If you wish to use a pre-containerized image then this step can be ignored. 
 
 ```
@@ -133,6 +134,7 @@ spec:
 
 ## Usage
 
+Note that if you are not using Kubernetes you will need to modify the gene_api.py file. Within line 18 change host='redis-test-service' to host='redis-db'
 ```
 return redis.Redis(host='redis-test-service', port=6379, db=0, decode_responses = True) #decode_r\
 esponse turn byte key into a string we can use
