@@ -15,8 +15,6 @@ services:
             dockerfile: ./Dockerfile
         depends_on:
             - redis-db
-        image: username/genese_api:hw06
+        image: antjim19037/gene_api:hw06
         ports:
             - 5000:5000
-        volumes:
-            - ./config.yaml:/config.yaml
