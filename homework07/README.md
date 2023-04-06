@@ -7,11 +7,11 @@ As mentioned there are nearly 43,0000 symbols so it can be difficult to search t
 The public [data](https://www.genenames.org/download/archive/) used is provided and maintained by HUGO. At the bottom you will find all of the different formats. The one used for this is 'Current JSON format hgnc_complete_set file'. Furthemore, within the /genes/<hgnc_id> route you will find much more detailed information about what the dataset contains.
 
 ## Important Files
-gene_api.py: Flask app containing all of the routes allowing user to make a request and get a response. It also contains the code regarding redis, a noSQL database, which allows us to store the data. This is important so that all the data is stored in the case that the flask application stops.
+**gene_api.py**: Flask app containing all of the routes allowing user to make a request and get a response. It also contains the code regarding redis, a noSQL database, which allows us to store the data. This is important so that all the data is stored in the case that the flask application stops.
 
-Dockerfile: Containerizes the gene_api.py application. Containerization is important as it allows the script to function the same despite the host device. It will install the necessary libraries used such as Flask, Redis, JSON, and Python. It also makes it easy to share the application once it has been pushed to Docker Hub.
+**Dockerfile**: Containerizes the gene_api.py application. Containerization is important as it allows the script to function the same despite the host device. It will install the necessary libraries used such as Flask, Redis, JSON, and Python. It also makes it easy to share the application once it has been pushed to Docker Hub.
 
-docker-compose.yaml: Makes it much easier to run and stop the entire application. Brlow is the command to launch the application along with redis.  
+**docker-compose.yaml**: Makes it much easier to run and stop the entire application. Brlow is the command to launch the application along with redis.  
 ```
 $ docker-compose up -d
 ```
@@ -76,12 +76,12 @@ $ kubectl apply -f deployment-python-debug.yml
 You will see an output confirming that the PVC, deployment, and services were configured/created. 
 ### Kubernetes yml Files
 
-aoj19037-test-redis-pvc.yml - creates a persistant volume claim for Redis data
-aoj19037-test-redis-deployment.yml - creates deployment for Redis database
-aoj19037-test-redis-service.yml - creates Redis service which allows us to have a persistent IP address to use to talk to Redis. 
-aoj19037-test-flask-deployment.yml - creates a deployment for gene_api image from dockerhub
-aoj19037-test-flask-service.yml - creates Flask service which allows us to have a persistent IP address to use to talk to Flask and run our curl commands
-deployment-python-debug.yml - creates a deployment for debugging
+**aoj19037-test-redis-pvc.yml**: creates a persistant volume claim for Redis data
+**aoj19037-test-redis-deployment.yml**: creates deployment for Redis database
+**aoj19037-test-redis-service.yml**: creates Redis service which allows us to have a persistent IP address to use to talk to Redis. 
+**aoj19037-test-flask-deployment.yml**: creates a deployment for gene_api image from dockerhub
+**aoj19037-test-flask-service.yml**: creates Flask service which allows us to have a persistent IP address to use to talk to Flask and run our curl commands
+**deployment-python-debug.yml**: creates a deployment for debugging
 
 ### Using Kubernetes cluster
 Note, your pods and IP addresses will differ. 
