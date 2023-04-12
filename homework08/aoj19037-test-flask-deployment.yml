@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-test-deployment
+  labels:
+    username: aoj19037
+    env: test
+    app: flasktestapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flasktestapp
+  template:
+    metadata:
+      labels:
+        app: flasktestapp
+        username: aoj19037
+        env: test
+    spec:
+      containers:
+        - name: flask-container
+          imagePullPolicy: Always
+          image: antjim19037/gene_api:hw07
+          ports:
+          - name: flask
+            containerPort: 5000
