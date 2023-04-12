@@ -3,7 +3,8 @@ import requests
 import json
 import redis
 import os
-
+import matplotlin.pyplot as plt
+import numpy as np
 
 app = Flask(__name__)
 
@@ -23,9 +24,25 @@ def get_redis_client():
     if not redis_ip:
         raise Exception()
     rd = redis.Redis(host=redis_ip,port=6379,db0,decode_responses = True)
-    return rd
+    rd2 = redis.Redis(host=redis_ip,port=6379,db1,decode_responses = True)
+    return rd,rd2
 
 rd = get_redis_client()
+
+@app.route('/image', methods=['GET','POST', 'DELETE'])
+def handle_image():
+    global gene_data
+    if request.method == 'POST':
+        x = np.linspace(0, 2*np.pi, 50)
+        plt.plot(x, np.sin(x))
+        plt.savefig('my_sinwave.png')
+        rd2.set('plot', plt)
+        return "Plot has been created"
+    elif request.method == "GET":
+        return "Image"
+    elif request.method == "DELETE":
+        rd2.flushdb()
+        return "Plot has been delete"
 
 @app.route('/data', methods=['GET', 'POST', 'DELETE'])
 def handle_data():
