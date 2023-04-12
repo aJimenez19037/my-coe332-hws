@@ -26,3 +26,6 @@ spec:
           ports:
           - name: flask
             containerPort: 5000
+	  env:
+	    - name: REDIS_IP
+	      value: redis-test-service
