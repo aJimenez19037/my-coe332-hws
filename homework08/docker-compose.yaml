@@ -18,3 +18,5 @@ services:
         image: antjim19037/gene_api:hw07
         ports:
             - 5000:5000
+	environmetn:
+	  - REDIS_IP = 

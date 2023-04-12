@@ -2,20 +2,28 @@ from flask import Flask, request
 import requests
 import json
 import redis
+import os
+
 
 app = Flask(__name__)
 
 global gene_data
 url = 'https://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/json/hgnc_complete_set.json'
 
+
+
 def get_redis_client():
     """Connect flask applicaton to redis
     Args: 
        None
     Returns:
-       None
+       redis client
     """
-    return redis.Redis(host='redis-test-service', port=6379, db=0, decode_responses = True) #decode_response turn byte key into a string we can use
+    redis_ip = os.environ.get('REDIS_IP')
+    if not redis_ip:
+        raise Exception()
+    rd = redis.Redis(host=redis_ip,port=6379,db0,decode_responses = True)
+    return rd
 
 rd = get_redis_client()
 
