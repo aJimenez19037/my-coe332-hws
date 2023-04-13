@@ -23,28 +23,27 @@ def get_redis_client(db_number:int):
     redis_ip = os.environ.get('REDIS_IP')
     if not redis_ip:
         raise Exception()
-    rd = redis.Redis(host=redis_ip,port=6379,db=db_number,decode_responses = True)
-    return rd
-
+    return redis.Redis(host=redis_ip,port=6379,db=db_number,decode_responses = True)
+    
 rd = get_redis_client(0)
-rd2 = get_redis_client(1)
+#rd2 = get_redis_client(1)
 
-@app.route('/image', methods=['GET','POST', 'DELETE'])
-def handle_image():
-    global gene_data
-    if request.method == 'POST':
-        x = np.linspace(0, 2*np.pi, 50)
-        plt.plot(x, np.sin(x))
-        plt.savefig('my_sinwave.png')
-        rd2.set('plot', plt)
-        return "Plot has been created"
-    elif request.method == "GET":
-        return "Image"
-    elif request.method == "DELETE":
-        rd2.flushdb()
-        return "Plot has been delete"
-    else:
-        return "Method requested is not allowed"
+#@app.route('/image', methods=['GET','POST', 'DELETE'])
+#def handle_image():
+#    global gene_data
+#    if request.method == 'POST':
+ #       x = np.linspace(0, 2*np.pi, 50)
+  #      plt.plot(x, np.sin(x))
+   #     plt.savefig('my_sinwave.png')
+    #    rd2.set('plot', plt)
+     #   return "Plot has been created"
+   # elif request.method == "GET":
+    #    return "Image"
+    #elif request.method == "DELETE":
+    #    rd2.flushdb()
+     #   return "Plot has been delete"
+    #else:
+     #   return "Method requested is not allowed"
 
 @app.route('/data', methods=['GET', 'POST', 'DELETE'])
 def handle_data():
