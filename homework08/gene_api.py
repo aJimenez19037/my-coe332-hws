@@ -13,7 +13,7 @@ url = 'https://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/json/hgnc_complete_set
 
 
 
-def get_redis_client():
+def get_redis_client(db_number:int):
     """Connect flask applicaton to redis
     Args: 
        None
@@ -23,11 +23,11 @@ def get_redis_client():
     redis_ip = os.environ.get('REDIS_IP')
     if not redis_ip:
         raise Exception()
-    rd = redis.Redis(host=redis_ip,port=6379,db0,decode_responses = True)
-    rd2 = redis.Redis(host=redis_ip,port=6379,db1,decode_responses = True)
-    return rd,rd2
+    rd = redis.Redis(host=redis_ip,port=6379,db=db_number,decode_responses = True)
+    return rd
 
-rd = get_redis_client()
+rd = get_redis_client(0)
+rd2 = get_redis_client(1)
 
 @app.route('/image', methods=['GET','POST', 'DELETE'])
 def handle_image():
@@ -43,6 +43,8 @@ def handle_image():
     elif request.method == "DELETE":
         rd2.flushdb()
         return "Plot has been delete"
+    else:
+        return "Method requested is not allowed"
 
 @app.route('/data', methods=['GET', 'POST', 'DELETE'])
 def handle_data():
