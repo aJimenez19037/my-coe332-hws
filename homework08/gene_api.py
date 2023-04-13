@@ -2,48 +2,22 @@ from flask import Flask, request
 import requests
 import json
 import redis
-import os
-import matplotlin.pyplot as plt
-import numpy as np
 
 app = Flask(__name__)
 
 global gene_data
 url = 'https://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/json/hgnc_complete_set.json'
 
-
-
-def get_redis_client(db_number:int):
+def get_redis_client():
     """Connect flask applicaton to redis
     Args: 
        None
     Returns:
-       redis client
+       None
     """
-    redis_ip = os.environ.get('REDIS_IP')
-    if not redis_ip:
-        raise Exception()
-    return redis.Redis(host=redis_ip,port=6379,db=db_number,decode_responses = True)
-    
-rd = get_redis_client(0)
-#rd2 = get_redis_client(1)
+    return redis.Redis(host='redis-test-service', port=6379, db=0, decode_responses = True) #decode_response turn byte key into a string we can use
 
-#@app.route('/image', methods=['GET','POST', 'DELETE'])
-#def handle_image():
-#    global gene_data
-#    if request.method == 'POST':
- #       x = np.linspace(0, 2*np.pi, 50)
-  #      plt.plot(x, np.sin(x))
-   #     plt.savefig('my_sinwave.png')
-    #    rd2.set('plot', plt)
-     #   return "Plot has been created"
-   # elif request.method == "GET":
-    #    return "Image"
-    #elif request.method == "DELETE":
-    #    rd2.flushdb()
-     #   return "Plot has been delete"
-    #else:
-     #   return "Method requested is not allowed"
+rd = get_redis_client()
 
 @app.route('/data', methods=['GET', 'POST', 'DELETE'])
 def handle_data():
