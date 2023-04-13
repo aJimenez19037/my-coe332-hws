@@ -1,4 +1,4 @@
-# HW 07: Containerized Flask Application for HGNC Human Genome Data Using Redis Database
+# HW 08: Containerized Flask Application for HGNC Human Genome Data Using Redis Database
 ## Purpose
 Currently the non-profit Humand Genome Organization (HUGO) which oversees the HUGO Gene Nomenclature Commmittee (HGNC) has approved almost 43,000 symbols (genes). It is important that there are standardize names for genes to minimize confusion and make it much easier to work with genes. Due to the work of the HGNC we always know that we are talking about the same gene! 
 
@@ -147,6 +147,9 @@ esponse turn byte key into a string we can use
 | | DELETE | Delete all data in redis |
 | `/genes` | GET | Return json-formatted list of all the hgnc_ids |
 | `/genes/<hgnc_id>` | GET | Return all data associated with <hgnc_id> |
+| `/image`| GET | Return plot to user|
+| | POST | Create plot and store it into redis|
+| | DELETE | Delete plot from second redis sheet|
 
 ### /data route
 There are three methods associated with this route.
@@ -320,3 +323,15 @@ $ curl localhost:5000/genes/HGNC:13703
   "vega_id": "OTTHUMG00000163957"
 }
 ```
+### /image route
+Creates desired plot and places it in the users directory if using POST method. If using GET method the user will recieve the image in their repository. Using the DELETE will delete the plot from the database. 
+```
+$ curl -X POST localhost:5000/image
+Plot stored in database
+$ curl -X GET localhost:5000/image
+Image has been returned
+$ curl -X DELETE localhost:5000/image
+Plot has been deleted
+```
+
+
