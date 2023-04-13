@@ -45,7 +45,7 @@ def handle_image():
     pre_2010 = 0
     post_2011 = 0
     if request.method == 'POST':
-        if len(rd.keys) == 0:
+        if len(rd.keys()) == 0:
             return "Data has not been loaded in"
         for item in rd.keys():
             item = json.loads(rd.get(item))
