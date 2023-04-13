@@ -15,6 +15,9 @@ services:
             dockerfile: ./Dockerfile
         depends_on:
             - redis-db
-        image: antjim19037/gene_api:hw07
+        image: antjim19037/gene_api:hw08
+        environment:
+          - REDIS_IP=redis-test-service  
         ports:
             - 5000:5000
+	   

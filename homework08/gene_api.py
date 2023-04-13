@@ -2,6 +2,7 @@ from flask import Flask, request
 import requests
 import json
 import redis
+import os
 
 app = Flask(__name__)
 
@@ -15,7 +16,10 @@ def get_redis_client():
     Returns:
        None
     """
-    return redis.Redis(host='redis-test-service', port=6379, db=0, decode_responses = True) #decode_response turn byte key into a string we can use
+    redis_ip = os.environ.get('REDIS_IP')
+    if not redis_ip:
+        raise Exception()
+    return redis.Redis(host=redis_ip, port=6379, db=0, decode_responses = True) #decode_response turn byte key into a string we can use
 
 rd = get_redis_client()
 
