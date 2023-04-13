@@ -28,6 +28,17 @@ rd2 = get_redis_client(1)
 
 @app.route('/image', methods=['GET', 'POST', 'DELETE'])
 def handle_image():
+"""Either gets, post, or deletes entire plot
+
+    Args:
+       None
+    Returns:
+       [GET] String: Message informing that the plot has been shared
+             png: Plot about approved gene dates. 
+       [POST] String: Message informing that plot was loaded into redis
+       [DELETE] String: Message infomring that plot was deleted
+
+"""
     global gene_data
     pre_1990 = 0
     pre_2000 = 0
