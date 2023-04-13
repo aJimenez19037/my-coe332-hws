@@ -23,7 +23,7 @@ spec:
         - name: flask-container
           imagePullPolicy: Always
           image: antjim19037/gene_api:hw08
-	  env:
+          env:
             - name: REDIS_IP
               value: redis-test-service
           ports:

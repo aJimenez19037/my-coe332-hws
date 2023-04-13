@@ -3,13 +3,15 @@ import requests
 import json
 import redis
 import os
+import matplotlib.pyplot as plt
+import numpy as np
 
 app = Flask(__name__)
 
 global gene_data
 url = 'https://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/json/hgnc_complete_set.json'
 
-def get_redis_client():
+def get_redis_client(db_val:int):
     """Connect flask applicaton to redis
     Args: 
        None
@@ -19,10 +21,55 @@ def get_redis_client():
     redis_ip = os.environ.get('REDIS_IP')
     if not redis_ip:
         raise Exception()
-    return redis.Redis(host=redis_ip, port=6379, db=0, decode_responses = True) #decode_response turn byte key into a string we can use
+    return redis.Redis(host=redis_ip, port=6379, db=db_val, decode_responses = True) #decode_response turn byte key into a string we can use
 
-rd = get_redis_client()
+rd = get_redis_client(0)
+rd2 = get_redis_client(1)
 
+@app.route('/image', methods=['GET', 'POST', 'DELETE'])
+def handle_image():
+    global gene_data
+    pre_1990 = 0
+    pre_2000 = 0
+    pre_2010 = 0
+    post_2011 = 0
+    if request.method == 'POST':
+        if len(rd.keys) == 0:
+            return "Data has not been loaded in"
+        for item in rd.keys():
+            item = json.loads(rd.get(item))
+            date = item['date_approved_reserved']
+            year = int(date[:4])
+            if year<=1990:
+                pre_1990 = pre_1990+1
+            elif year <=2000 and year>1990:
+                pre_2000 = pre_2000+1
+            elif year <=2010 and year>2000:
+                pre_2010 = pre_2010 + 1
+            elif year>=2011:
+                post_2011 = post_2011 + 1
+        year_labels = ['pre_1990','pre_2000','pre_2010','pre_2011']
+        val = [pre_1990,pre_2000,pre_2010,pre_2011]
+        plt.figure()
+        plt.pie(val,labels=year_labels)
+        plt.title("Gene Date Appoved")
+        plt.savefig('./plot.png')
+        with open('./plot.png', 'rb') as f:
+            img_bytes = f.read()
+        rd2.set('plot', img_bytes)
+        return "Plot stored in database"
+    elif request.method == 'GET':
+        if rd2.exist('plot'):
+            img_path = './plot.png'
+            with open(img_path, 'wb') as f:
+                f.write(rd2.get('plot'))
+            return send_file(path,mimetype='plot/png', as_attachment=True)
+        return "Image has been returned"
+    elif request.method == 'DELETE':
+        rd2.flushdb()
+        return "Plot has been deleted"
+    else:
+        return 'the method you tried does not exist\n'
 @app.route('/data', methods=['GET', 'POST', 'DELETE'])
 def handle_data():
     """Either loads, post, or deletes entire database
