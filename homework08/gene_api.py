@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, send_file
 import requests
 import json
 import redis
@@ -59,7 +59,7 @@ def handle_image():
         rd2.set('plot', img_bytes)
         return "Plot stored in database"
     elif request.method == 'GET':
-        if rd2.exist('plot'):
+        if rd2.exists('plot'):
             img_path = './plot.png'
             with open(img_path, 'wb') as f:
                 f.write(rd2.get('plot'))
