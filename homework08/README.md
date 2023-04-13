@@ -91,7 +91,7 @@ You will see an output confirming that the PVC, deployment, and services were co
 **deployment-python-debug.yml**: creates a deployment for debugging
 
 ### Using Kubernetes cluster
-Note, your pods and IP addresses will differ. 
+Note, your pods and IP addresses will differ. Furthermore there is no need to alter the redis ip as it is dynamically set up through a combination of the docker-composer, flask deployment, and flask app. 
 ```
 $kubectl get pods
 NAME                                    READY   STATUS    RESTARTS   AGE
@@ -134,7 +134,7 @@ spec:
 
 ## Usage
 
-Note that if you are not using Kubernetes you will need to modify the gene_api.py file. Within line 18 change host='redis-test-service' to host='redis-db'
+Note that if you are not using Kubernetes you will need to modify the gene_api.py, docker-compose, and flask-deployment. As the redis ip is dynamically set up you will need to alter the host and redis IP. For Kubernetes users there is no need to alter the code.  
 ```
 return redis.Redis(host='redis-test-service', port=6379, db=0, decode_responses = True) #decode_r\
 esponse turn byte key into a string we can use
@@ -333,5 +333,6 @@ Image has been returned
 $ curl -X DELETE localhost:5000/image
 Plot has been deleted
 ```
+You should expect to see a pie chart with gene approval dates. Image missing as Kube manager is only able to launch 2 pods.  
 
 
